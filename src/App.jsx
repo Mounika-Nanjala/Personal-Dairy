@@ -1,22 +1,17 @@
-
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import PopupForm from "./components/PopupForm";
 import "./App.css";
+import { loadItems, deleteItem, saveItem } from "./utils/storageService";
+import { AddEntryButton } from "./components/AddEntryButton";
 
 function App() {
   const [isEditVisible, setEditlVisible] = useState(false);
   const [isAddVisible, setaddVisible] = useState(false);
-  const [storedItems, setStoredItems] = useState(
-    JSON.parse(localStorage.getItem("cards")) || []
-  );
+  const [storedItems, setStoredItems] = useState(JSON.parse(localStorage.getItem("cards")) || []);
   const [card, setCard] = useState({});
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "theme-light"
-  );
-  const [userName, setUserName] = useState(
-    localStorage.getItem("userName") || ""
-  );
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "theme-light");
+  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
 
   const handleClose = () => {
@@ -35,43 +30,15 @@ function App() {
   };
 
   const handleDelete = (itemDel) => {
-    const updatedItems = storedItems.filter((item) => item.id !== itemDel.id);
-    localStorage.setItem("cards", JSON.stringify(updatedItems));
-    setStoredItems(updatedItems);
+    setStoredItems((prevItems) => deleteItem(prevItems, itemDel));
   };
 
   const handleSave = (newItem) => {
-    if (storedItems.length === 0) {
-      newItem.id = 1;
-    }
-
-    if (!newItem.id) {
-      const maxId = Math.max(...storedItems.map((item) => item.id));
-      newItem.id = maxId + 1;
-    }
-
-    const isIdExist =
-      storedItems.findIndex((existingItem) => existingItem.id === newItem.id) >=
-      0;
-
-    let updatedItems;
-    if (isIdExist) {
-      updatedItems = storedItems.map((existingItem) =>
-        existingItem.id === newItem.id
-          ? { ...existingItem, ...newItem }
-          : existingItem
-      );
-    } else {
-      updatedItems = [...storedItems, newItem];
-    }
-
-    localStorage.setItem("cards", JSON.stringify(updatedItems));
-    setStoredItems(updatedItems);
+    setStoredItems((prevItems) => saveItem(prevItems, newItem));
   };
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("cards")) || [];
-    setStoredItems(items);
+    setStoredItems(loadItems());
   }, []);
 
   const handlePopupStart = ({ name, theme }) => {
@@ -88,19 +55,13 @@ function App() {
 
   return (
     <div>
-      {showPopup && (
-        <PopupForm onStart={handlePopupStart} onClose={handleClose} />
-      )}
+      {showPopup && <PopupForm onStart={handlePopupStart} onClose={handleClose} />}
       {!showPopup && (
         <div className="pageContainer">
-          <Header
-            setTheme={setTheme}
-            userName={userName}
-            openPopup={openPopup}
-            theme={theme}
-          />
+          <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
           {/* Add your container or main content component here */}
           {/* You might want to render your stored items here */}
+          {/* <AddEntryButton />  //calling the btn here */}
         </div>
       )}
     </div>
