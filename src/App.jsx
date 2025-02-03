@@ -5,7 +5,6 @@ import DiaryEntry from "./components/DiaryEntry.jsx";
 function App() {
   return (  
   <div className="bg-slate-200">
-    <DiaryEntry />
     <Footer />
   </div>
   );
