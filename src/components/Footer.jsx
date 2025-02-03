@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const Footer = () => {
     // Array of inspiring quotes to iterate through
     const inspiringQuotes = [
@@ -13,21 +15,30 @@ const Footer = () => {
         "Even when the world seems bananas, stay positive and keep shining!",
     ];
 
+    // useState to store the selected quote
+    const [quote, setQuote] = useState("");
+
+    //Function to store the selected quote
+    const generateRandomQuote = () => {
+        const randomIndex = Math.floor(Math.random() * inspiringQuotes.length);
+        setQuote(inspiringQuotes[randomIndex]);
+    };
+
     return (
-        <section id="footer" className="flex">
-            <div>
-                <p>
-                    Your Personal Diary
+        <section 
+        id="footer" 
+        className="container mx-auto flex items-center justify-center gap-8 p-4">
+                <button
+                onClick={generateRandomQuote}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-400 transition">
+                    Generate an inspiring quote
+                </button>
+                <p
+                className="italic text-gray-700">
+                    {quote}
                 </p>
-                <div>
-                    <button>
-                        Generate an inspiring quote
-                    </button>
-                    <p>
-                        
-                    </p>
-                </div>
-            </div>
         </section>
     );
 };
+
+export default Footer;
