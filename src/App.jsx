@@ -1,6 +1,6 @@
 import "./index.css";
 import Footer from "./components/Footer.jsx";
-import DiaryEntry from "./components/DiaryEntry.jsx";
+import DiaryEntries from "./components/DiaryEntry.jsx";
 
 function App() {
   return (  

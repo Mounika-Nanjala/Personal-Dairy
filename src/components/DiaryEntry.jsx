@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 
 const DiaryEntries = ({ onViewEntry }) => {
     const [entries, setEntries] = useState([]);
@@ -7,11 +7,11 @@ const DiaryEntries = ({ onViewEntry }) => {
     useEffect(() => {
         const storedEntries = JSON.parse(localStorage.getItem("diaryEntries")) || [];
         setEntries(storedEntries);
-    });
+    }, []);
 
     // Function to remove entries
     const removeEntry = (index) => {
-        if(window.confirm("Are you sure you want to delete this entry?")){
+        if (window.confirm("Are you sure you want to delete this entry?")) {
             const updatedEntries = entries.filter((_, i) => i !== index);
             setEntries(updatedEntries);
             localStorage.setItem("diaryEntries", JSON.stringify(updatedEntries));
@@ -45,7 +45,7 @@ const DiaryEntries = ({ onViewEntry }) => {
                 ))
             ) : (
                 <p className="text-gray-500">No diary entry yet</p>
-            )};
+            )}
         </div>
     );
 };
