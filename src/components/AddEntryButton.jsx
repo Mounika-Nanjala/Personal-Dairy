@@ -1,14 +1,11 @@
-import React from "react";
 
-const AddEntryButton = ({ onClick }) => {
+export const AddEntryButton = () => {
   return (
-    <button
-      className="fixed bottom-5 right-5 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg"
-      onClick={onClick}
-    >
-      + Add Entry
-    </button>
+    <div className="flex justify-center mt-6">
+      <button className="btn btn-active btn-accent mx-auto text-black py-3 px-3 rounded-md font-medium shadow-md transition">
+        Add new entry
+      </button>
+    </div>
   );
 };
 
-export default AddEntryButton;

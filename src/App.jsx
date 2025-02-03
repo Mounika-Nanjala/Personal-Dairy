@@ -5,6 +5,8 @@ import Homepage from "./pages/Homepage";
 import AddEntryButton from "./components/AddEntryButton";
 import AddEntryModal from "./components/AddEntryModal";
 import "./App.css";
+import { loadItems, deleteItem, saveItem } from "./utils/storageService";
+import { AddEntryButton } from "./components/AddEntryButton";
 
 function App() {
   const [entries, setEntries] = useState(JSON.parse(localStorage.getItem("diaryEntries")) || []);
@@ -13,8 +15,12 @@ function App() {
   const [fromDate, setFromDate] = useState(""); // ✅ From Date filter
   const [toDate, setToDate] = useState(""); // ✅ To Date filter
   const [filteredEntries, setFilteredEntries] = useState(entries); // ✅ Filtered results
-  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
+  const [isEditVisible, setEditlVisible] = useState(false);
+  const [isAddVisible, setaddVisible] = useState(false);
+  const [storedItems, setStoredItems] = useState(JSON.parse(localStorage.getItem("cards")) || []);
+  const [card, setCard] = useState({});
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "theme-light");
+  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
 
   // Save entries to localStorage whenever entries change
