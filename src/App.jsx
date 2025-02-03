@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage";
 import AddEntryButton from "./components/AddEntryButton";
 import AddEntryModal from "./components/AddEntryModal";
 import "./App.css";
+import { loadItems, deleteItem, saveItem } from "./utils/storageService";
 
 function App() {
   const [entries, setEntries] = useState(JSON.parse(localStorage.getItem("diaryEntries")) || []);
@@ -13,31 +14,54 @@ function App() {
   const [fromDate, setFromDate] = useState(""); // ✅ From Date filter
   const [toDate, setToDate] = useState(""); // ✅ To Date filter
   const [filteredEntries, setFilteredEntries] = useState(entries); // ✅ Filtered results
-  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
+  const [isEditVisible, setEditlVisible] = useState(false);
+  const [isAddVisible, setaddVisible] = useState(false);
+  const [storedItems, setStoredItems] = useState(JSON.parse(localStorage.getItem("cards")) || []);
+  const [card, setCard] = useState({});
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "theme-light");
+  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
 
-  // Save entries to localStorage whenever entries change
-  useEffect(() => {
-    localStorage.setItem("diaryEntries", JSON.stringify(entries));
-  }, [entries]);
-
-  // Function to add a new entry
-  const handleAdd = (newEntry) => {
-    if (entries.some((entry) => entry.date === newEntry.date)) {
-      alert("An entry for this date already exists!");
-      return;
-    }
-    const updatedEntries = [{ id: Date.now(), ...newEntry }, ...entries];
-    setEntries(updatedEntries);
-    setFilteredEntries(updatedEntries); // Update filtered list
+  const handleClose = () => {
+    setEditlVisible(false);
+    setaddVisible(false);
+    setShowPopup(false);
   };
 
-  // Function to delete an entry
-  const handleDelete = (entryId) => {
-    const updatedEntries = entries.filter((entry) => entry.id !== entryId);
-    setEntries(updatedEntries);
-    setFilteredEntries(updatedEntries); // Update filtered list
+  const handleAdd = () => {
+    setaddVisible(true);
+  };
+
+  const handleEdit = (item) => {
+    setEditlVisible(true);
+    setCard(item);
+  };
+
+  const handleDelete = (itemDel) => {
+    const updatedItems = storedItems.filter((item) => item.id !== itemDel.id);
+    localStorage.setItem("cards", JSON.stringify(updatedItems));
+    setStoredItems(updatedItems);
+  };
+
+  const handleSave = (newItem) => {
+    if (storedItems.length === 0) {
+      newItem.id = 1;
+    }
+    if (!newItem.id) {
+      const maxId = Math.max(...storedItems.map((item) => item.id));
+      newItem.id = maxId + 1;
+    }
+    const isIdExist = storedItems.findIndex((existingItem) => existingItem.id === newItem.id) >= 0;
+    let updatedItems;
+    if (isIdExist) {
+      updatedItems = storedItems.map((existingItem) =>
+        existingItem.id === newItem.id ? { ...existingItem, ...newItem } : existingItem
+      );
+    } else {
+      updatedItems = [...storedItems, newItem];
+    }
+    localStorage.setItem("cards", JSON.stringify(updatedItems));
+    setStoredItems(updatedItems);
   };
 
   // Function to filter results based on search query & date range
@@ -60,24 +84,31 @@ function App() {
     setFilteredEntries(filtered);
   };
 
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem("cards")) || [];
+    setStoredItems(items);
+  }, []);
+
+  const handlePopupStart = ({ name, theme }) => {
+    setUserName(name);
+    setTheme(theme);
+    setShowPopup(false);
+    localStorage.setItem("userName", name);
+    localStorage.setItem("theme", theme);
+  };
+
+  const openPopup = () => {
+    setShowPopup(true);
+  };
+
   return (
-    <div className={`app-container ${theme}`}>
-      {showPopup && (
-        <PopupForm
-          onStart={({ name, theme }) => {
-            setUserName(name);
-            setTheme(theme);
-            setShowPopup(false);
-            localStorage.setItem("userName", name);
-            localStorage.setItem("theme", theme);
-          }}
-        />
-      )}
-
+    <div>
+      {showPopup && <PopupForm onStart={handlePopupStart} onClose={handleClose} />}
       {!showPopup && (
-        <div>
-          <Header setTheme={setTheme} userName={userName} theme={theme} />
-
+        <div className="pageContainer">
+          <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
+          {/* Add your container or main content component here */}
+          {/* You might want to render your stored items here */}
           {/* Search and Date Filter Section */}
           <div className="search-container p-4 flex flex-wrap gap-4">
             <input
