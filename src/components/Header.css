@@ -1,4 +1,4 @@
-/* Theme Selector Styles */
+Theme Selector Styles
 .theme-selector {
     display: flex;
     gap: 10px;
@@ -17,8 +17,9 @@
   }
   
   .theme-light {
-    background-color: #f8f2ea;
+    background-color: #f5f3f0;
     border: 2px solid #f3f3f3;
+    
   }
   
   .theme-dark {

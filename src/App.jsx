@@ -1,12 +1,12 @@
-
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import PopupForm from "./components/PopupForm";
+import EditPopup from "./components/Editpopup";
 import "./App.css";
 
 function App() {
   const [isEditVisible, setEditlVisible] = useState(false);
-  const [isAddVisible, setaddVisible] = useState(false);
+  const [isAddVisible, setAddVisible] = useState(false);
   const [storedItems, setStoredItems] = useState(
     JSON.parse(localStorage.getItem("cards")) || []
   );
@@ -18,20 +18,23 @@ function App() {
     localStorage.getItem("userName") || ""
   );
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
+  const [showEditPopup, setShowEditPopup] = useState(false); 
+  const [selectedCard, setSelectedCard] = useState(null); 
 
   const handleClose = () => {
     setEditlVisible(false);
-    setaddVisible(false);
+    setAddVisible(false);
     setShowPopup(false);
+    setShowEditPopup(false); 
   };
 
   const handleAdd = () => {
-    setaddVisible(true);
+    setAddVisible(true);
   };
 
   const handleEdit = (item) => {
-    setEditlVisible(true);
-    setCard(item);
+    setSelectedCard(item);
+    setShowEditPopup(true); 
   };
 
   const handleDelete = (itemDel) => {
@@ -87,20 +90,48 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="appContainer">
       {showPopup && (
         <PopupForm onStart={handlePopupStart} onClose={handleClose} />
       )}
+      {showEditPopup && (
+        <EditPopup
+          onClose={handleClose}
+          onSave={handleSave}
+          item={selectedCard} 
+        />
+      )}
       {!showPopup && (
-        <div className="pageContainer">
+        <div className={`pageContainer ${theme}`}>
           <Header
             setTheme={setTheme}
             userName={userName}
             openPopup={openPopup}
             theme={theme}
           />
-          {/* Add your container or main content component here */}
-          {/* You might want to render your stored items here */}
+          <button className="btn btn-outline btn-accent" onClick={() => handleEdit(storedItems[0])}>
+            New Entry Form
+          </button>
+
+          <div className="mainContent">
+            {storedItems.map((item) => (
+              <div key={item.id} className="itemCard">
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+                <button
+                  className="btn btn-outline btn-accent"
+                  onClick={() => handleEdit(item)} 
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-outline btn-danger"
+                  onClick={() => handleDelete(item)} >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -1,14 +1,14 @@
 import "./Header.css";
 import Logo from "./Logo";
 
-const Header = ({ setTheme, userName, openPopup, theme }) => {
+const Header = ({ setTheme, userName, openPopup }) => {
   const changeTheme = (themeName) => {
     setTheme(themeName);
     localStorage.setItem("theme", themeName);
   };
 
   return (
-    <header className={theme}>
+    <header className="fixed-header"> {/* Fixed background color for header */}
       <div className="navbar justify-center">
         <div className="dropdown basis-1/3 justify-start">
           <div tabIndex={0}>
@@ -31,26 +31,26 @@ const Header = ({ setTheme, userName, openPopup, theme }) => {
         <div className="mx-auto">
           <Logo />
         </div>
-        <div className="gap-4 basis-1/3 justify-end">
-  <div className="theme-selector">
-    <button
-      className="theme-circle theme-light"
-      onClick={() => changeTheme("theme-light")}
-      aria-label="Light Theme"
-    ></button>
-    <button
-      className="theme-circle theme-dark"
-      onClick={() => changeTheme("theme-dark")}
-      aria-label="Dark Theme"
-    ></button>
-    <button
-      className="theme-circle theme-colorful"
-      onClick={() => changeTheme("theme-colorful")}
-      aria-label="Colorful Theme"
-    ></button>
-  </div>
-</div>
 
+        <div className="gap-4 basis-1/3 justify-end">
+          <div className="theme-selector">
+            <button
+              className="theme-circle theme-light"
+              onClick={() => changeTheme("theme-light")}
+              aria-label="Light Theme"
+            ></button>
+            <button
+              className="theme-circle theme-dark"
+              onClick={() => changeTheme("theme-dark")}
+              aria-label="Dark Theme"
+            ></button>
+            <button
+              className="theme-circle theme-colorful"
+              onClick={() => changeTheme("theme-colorful")}
+              aria-label="Colorful Theme"
+            ></button>
+          </div>
+        </div>
       </div>
     </header>
   );
