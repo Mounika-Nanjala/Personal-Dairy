@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import PopupForm from "./components/PopupForm";
+import Homepage from "./pages/Homepage";
+import AddEntryButton from "./components/AddEntryButton";
+import AddEntryModal from "./components/AddEntryModal";
 import EditPopup from "./components/Editpopup";
 import "./App.css";
+import { loadItems, deleteItem, saveItem } from "./utils/storageService";
 
 function App() {
+  const [entries, setEntries] = useState(JSON.parse(localStorage.getItem("diaryEntries")) || []);
+  const [showModal, setShowModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // ✅ Search text state
+  const [fromDate, setFromDate] = useState(""); // ✅ From Date filter
+  const [toDate, setToDate] = useState(""); // ✅ To Date filter
+  const [filteredEntries, setFilteredEntries] = useState(entries); // ✅ Filtered results
   const [isEditVisible, setEditlVisible] = useState(false);
   const [isAddVisible, setAddVisible] = useState(false);
   const [storedItems, setStoredItems] = useState(
     JSON.parse(localStorage.getItem("cards")) || []
   );
   const [card, setCard] = useState({});
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "theme-light"
-  );
-  const [userName, setUserName] = useState(
-    localStorage.getItem("userName") || ""
-  );
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "theme-light");
+  const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
   const [showEditPopup, setShowEditPopup] = useState(false); 
   const [selectedCard, setSelectedCard] = useState(null); 
@@ -68,8 +74,7 @@ function App() {
       updatedItems = [...storedItems, newItem];
     }
 
-    localStorage.setItem("cards", JSON.stringify(updatedItems));
-    setStoredItems(updatedItems);
+    setFilteredEntries(filtered);
   };
 
   useEffect(() => {
