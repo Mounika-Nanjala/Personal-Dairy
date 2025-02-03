@@ -1,5 +1,5 @@
-
-export const AddEntryButton = () => {
+import React from "react";
+const AddEntryButton = ({ onClick }) => {
   return (
     <div className="flex justify-center mt-6">
       <button className="btn btn-active btn-accent mx-auto text-black py-3 px-3 rounded-md font-medium shadow-md transition">
@@ -9,3 +9,4 @@ export const AddEntryButton = () => {
   );
 };
 
+export default AddEntryButton; // ✅ Ensure default export
