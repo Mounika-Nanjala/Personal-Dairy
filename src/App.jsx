@@ -6,7 +6,6 @@ import AddEntryButton from "./components/AddEntryButton";
 import AddEntryModal from "./components/AddEntryModal";
 import "./App.css";
 import { loadItems, deleteItem, saveItem } from "./utils/storageService";
-import { AddEntryButton } from "./components/AddEntryButton";
 
 function App() {
   const [entries, setEntries] = useState(JSON.parse(localStorage.getItem("diaryEntries")) || []);
