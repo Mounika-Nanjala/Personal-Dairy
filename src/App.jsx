@@ -5,17 +5,25 @@ import PopupForm from "./components/PopupForm";
 import PopUpCard from "./components/PopUpCard";
 import "./App.css";
 import Button from "./components/Button";
+import Footer from "./components/Footer";
+import Homepage from "./pages/Homepage";
+import SearchUI from "./components/SearchUI";
 
 function App() {
   const [entries, setEntries] = useState(JSON.parse(localStorage.getItem("diaryEntries")) || []);
+  const [filteredEntries, setFilteredEntries] = useState(entries);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "theme-light");
   const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
   const [selectedCard, setSelectedCard] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   useEffect(() => {
     const storedEntries = JSON.parse(localStorage.getItem("entries")) || [];
     setEntries(storedEntries);
+    setFilteredEntries(storedEntries);
   }, []);
 
   useEffect(() => {
@@ -28,6 +36,10 @@ function App() {
   };
 
   const handleEdit = (item) => {
+    setSelectedCard(item);
+  };
+
+  const handleDelete = (item) => {
     setSelectedCard(item);
   };
 
@@ -61,7 +73,21 @@ function App() {
       {!showPopup && (
         <div className={`pageContainer ${theme}`}>
           <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
+          {/* <Homepage entries={filteredEntries} onDelete={handleDelete} /> */}
+          <SearchUI
+            entries={entries}
+            filteredEntries={filteredEntries}
+            setFilteredEntries={setFilteredEntries}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            fromDate={fromDate}
+            setFromDate={setFromDate}
+            toDate={toDate}
+            setToDate={setToDate}
+          />
 
+          {/* Pass filteredEntries to Homepage */}
+          <Homepage entries={filteredEntries} />
           {/* Add New Entry Button */}
           <Button
             text="New Entry Form"
@@ -72,6 +98,7 @@ function App() {
           />
         </div>
       )}
+      <Footer />
     </div>
   );
 }
