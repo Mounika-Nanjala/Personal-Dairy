@@ -16,7 +16,7 @@ const PopupForm = ({ onStart, onClose }) => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-            Personal Diary Setup
+          Store Your Secrets Here
           </h2>
           <button onClick={onClose} className="text-3xl self-start">
             &times;
