@@ -1,3 +1,6 @@
+import "./index.css";
+import Footer from "./components/Footer.jsx";
+import DiaryEntry from "./components/DiaryEntry.jsx";
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import PopupForm from "./components/PopupForm";
