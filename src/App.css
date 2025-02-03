@@ -1,35 +1,31 @@
-
 header {
-  background-color: rgb(255, 255, 255); 
-  color: white; 
+  background-color: rgb(255, 255, 255);
+  color: white;
   padding: 15px;
   font-size: 20px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; 
+  z-index: 1000;
 }
-
-
 
 .theme-light {
-  background-color: #e7cece; 
-  color: #000000; 
+  background-color: #e7cece;
+  color: #000000;
 }
 
-
 .theme-dark {
-  background-color: #121212; 
-  color: #ffffff; 
+  background-color: #121212;
+  color: #ffffff;
 }
 .appContainer {
   font-family: Arial, sans-serif;
   min-height: 90vh;
   display: flex;
   flex-direction: column;
-  padding-top: 70px; 
-  padding-bottom: 50px; 
+  padding-top: 70px;
+  padding-bottom: 50px;
 }
 
 .pageContainer {
@@ -39,18 +35,16 @@ header {
   padding: 20px;
 }
 
-
 .mainContent {
   flex-grow: 1;
   padding: 20px;
-  background-color: inherit; 
+  background-color: inherit;
 }
-
 
 .btn-accent {
   position: absolute;
   bottom: 110px;
-  right: 900px;   
+  right: 900px;
   padding: 10px 20px;
   background-color: #575257;
   color: rgb(241, 243, 244);
@@ -60,9 +54,8 @@ header {
   font-size: 16px;
 }
 
-
 .btn-accent:hover {
-  background-color: #9db2c1; 
+  background-color: #9db2c1;
 }
 
 .editModal {
@@ -71,7 +64,7 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,6 +98,8 @@ header {
 .buttonGroup {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .buttonGroup button {
@@ -118,8 +113,7 @@ header {
   background-color: #f0f0f0;
 }
 
-
 .pageContainer {
-  padding-top: 70px;  
-  padding-bottom: 50px;  
+  padding-top: 70px;
+  padding-bottom: 50px;
 }
