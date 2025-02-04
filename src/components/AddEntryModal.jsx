@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from "react";
+import { saveItem, loadItems } from "../utils/storageService";
 
 const AddEntryModal = ({ onClose, onSave, entry }) => {
   const [title, setTitle] = useState(entry?.title || "");
   const [date, setDate] = useState(entry?.date || "");
-  const [content, setContent] = useState(entry?.content || "");
+  const [desc, setDesc] = useState(entry?.desc || "");
+  const [imageUrl, setImageUrl] = useState(entry?.imageUrl || "");
 
   useEffect(() => {
     if (entry) {
       setTitle(entry.title);
       setDate(entry.date);
-      setContent(entry.content);
+      setDesc(entry.desc);
+      setImageUrl(entry.imageUrl);
     }
   }, [entry]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !date || !content) {
+    if (!title || !date || !desc) {
       alert("Please fill in all fields!");
       return;
     }
-    onSave({ title, date, content });
-    onClose();
+    const storedEntries = loadItems();
+    const updatedEntry = { id: entry?.id, title, date, desc, imageUrl };
+
+    // Save new or edited entry to local storage 
+    saveItem(storedEntries, updatedEntry);
+    onSave(updatedEntry);
+    onClose(); 
   };
 
   return (
@@ -42,10 +50,17 @@ const AddEntryModal = ({ onClose, onSave, entry }) => {
             onChange={(e) => setDate(e.target.value)}
             className="border p-2 w-full mt-2"
           />
+          <input
+            type="text"
+            placeholder="Image URL"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            className="border p-2 w-full mt-2"
+          />
           <textarea
             placeholder="Write your entry..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
             className="border p-2 w-full mt-2 h-32"
           ></textarea>
 
