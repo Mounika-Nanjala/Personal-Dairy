@@ -16,7 +16,7 @@ const Footer = () => {
     ];
 
     // useState to store the selected quote
-    const [quote, setQuote] = useState("");
+    const [quote, setQuote] = useState(null);
 
     //Function to store the selected quote
     const generateRandomQuote = () => {
@@ -28,15 +28,19 @@ const Footer = () => {
         <section 
         id="footer" 
         className="container mx-auto flex items-center justify-center gap-8 p-4">
+            <p className="text-lg">Need Inspiration?</p>
                 <button
                 onClick={generateRandomQuote}
-                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-400 transition">
-                    Generate an inspiring quote
+                className="btn btn-outline btn-primary">
+                    Click here
                 </button>
-                <p
-                className="italic text-gray-700">
-                    {quote}
-                </p>
+                {quote !== null && (
+                <div className="chat chat-start">
+                    <div className="chat-bubble chat-bubble-primary mb-16">
+                        {quote}
+                    </div>
+                </div>
+            )}
         </section>
     );
 };

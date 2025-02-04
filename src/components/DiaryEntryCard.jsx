@@ -17,7 +17,7 @@ const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
       <p className="text-gray-400">{entry.date || "No Date"}</p>
       <p className="text-gray-400">{entry.desc || "No Description"}</p>
       <div className="flex justify-between mt-2">
-        <Button text="Edit" onClick={() => onClick(entry.id)} />
+        <Button text="View" onClick={() => onClick(entry.id)} />
         <Button text="Delete" onClick={() => onDelete(entry.id)} />
       </div>
     </div>
