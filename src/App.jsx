@@ -66,20 +66,22 @@ function App() {
 
       {/* Main App Content */}
       {!showPopup && (
-        <div className={`pageContainer ${theme}`}>
-          <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
-          <Homepage entries={entries} />
-          {/* Add New Entry Button */}
-          <Button
-            text="New Entry Form"
-            onClick={() => {
-              console.log("Opening modal...");
-              handleEdit({ date: "", title: "", imageUrl: "", desc: "" }); // New Entry
-            }}
-          />
-        </div>
+        <>
+          <div className={`pageContainer ${theme}`}>
+            <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
+            <Homepage entries={entries} />
+            {/* Add New Entry Button */}
+            <Button
+              text="New Entry Form"
+              onClick={() => {
+                // console.log("Opening modal...");
+                handleEdit({ date: "", title: "", imageUrl: "", desc: "" }); // New Entry
+              }}
+            />
+          </div>
+          <Footer />
+        </>
       )}
-      <Footer />
     </div>
   );
 }

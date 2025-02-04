@@ -1,3 +1,5 @@
+import Button from "./Button";
+
 /* eslint-disable react/prop-types */
 const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
   console.log(entry.imageUrl);
@@ -15,12 +17,8 @@ const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
       <p className="text-gray-400">{entry.date || "No Date"}</p>
       <p className="text-gray-400">{entry.desc || "No Description"}</p>
       <div className="flex justify-between mt-2">
-        <button onClick={() => onClick(entry.id)} className="text-blue-400">
-          Edit
-        </button>
-        <button onClick={() => onDelete(entry.id)} className="text-red-400">
-          Delete
-        </button>
+        <Button text="Edit" onClick={() => onClick(entry.id)} />
+        <Button text="Delete" onClick={() => onDelete(entry.id)} />
       </div>
     </div>
   );
