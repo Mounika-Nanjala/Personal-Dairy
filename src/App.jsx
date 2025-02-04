@@ -69,7 +69,7 @@ function App() {
         <>
           <div className={`pageContainer ${theme}`}>
             <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
-            <Homepage entries={entries} />
+            <Homepage entries={entries} setEntries={setEntries} />
             {/* Add New Entry Button */}
             <Button
               text="New Entry Form"

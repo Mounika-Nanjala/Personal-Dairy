@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import Entries from "../components/Entries";
 import EntryModal from "../components/EntryModal";
 import SearchUI from "../components/SearchUI";
+import { saveItem, loadItems } from "../utils/storageService";
 
-const Homepage = ({ entries }) => {
+const Homepage = ({ entries, setEntries }) => {
   const [selectedEntry, setSelectedEntry] = useState(null);
   const [filteredEntries, setFilteredEntries] = useState([]); // Initially show all entries
   const [isFiltered, setIsFiltered] = useState(false); // Track if search is applied
@@ -42,6 +43,23 @@ const Homepage = ({ entries }) => {
     setIsFiltered(true); // Mark that filtering is applied
   };
 
+    // Update enties
+    const updateEntry = (updatedEntry) => {
+      const updatedEntries = entries.map((entry) =>
+        entry.id === updatedEntry.id ? updatedEntry : entry
+      );
+  
+      setEntries(updatedEntries); 
+      saveItem(updatedEntries, updatedEntry); 
+  
+      if (isFiltered) {
+        setFilteredEntries(updatedEntries.filter(entry =>
+          filteredEntries.some(filteredEntry => filteredEntry.id === entry.id)
+        ));
+      }
+    };
+
+
   // const handleDelete = (id) => {
   //   const updatedEntries = entries.filter((entry) => entry.id !== id);
   //   // setEntries(updatedEntries); // Updates `entries` state in `App.jsx`
@@ -70,7 +88,12 @@ const Homepage = ({ entries }) => {
       />
 
       {/* Show modal when an entry is selected */}
-      {selectedEntry && <EntryModal entry={selectedEntry} onClose={() => setSelectedEntry(null)} />}
+      {selectedEntry && (
+        <EntryModal
+          entry={selectedEntry}
+          onClose={() => setSelectedEntry(null)}
+          updateEntry={updateEntry}/>
+        )}
     </div>
   );
 };
