@@ -1,38 +1,13 @@
 /* eslint-disable react/prop-types */
 const SearchUI = ({
-  entries,
-  setFilteredEntries,
   searchQuery,
   setSearchQuery,
   fromDate,
   setFromDate,
   toDate,
   setToDate,
+  filterEntries,
 }) => {
-  const handleFilter = () => {
-    if (!searchQuery && !fromDate && !toDate) {
-      setFilteredEntries(entries); // Show full list if no filters are applied
-      return;
-    }
-
-    const filtered = entries.filter((entry) => {
-      const entryDate = new Date(entry.date);
-      const from = fromDate ? new Date(fromDate) : null;
-      const to = toDate ? new Date(toDate) : null;
-
-      const matchesText = searchQuery
-        ? entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          entry.content.toLowerCase().includes(searchQuery.toLowerCase())
-        : true;
-
-      const matchesDate = (!from || entryDate >= from) && (!to || entryDate <= to);
-
-      return matchesText && matchesDate;
-    });
-
-    setFilteredEntries(filtered);
-  };
-
   return (
     <div className="search-container p-4 flex flex-wrap gap-4">
       <input
@@ -58,7 +33,7 @@ const SearchUI = ({
       />
 
       <button
-        onClick={handleFilter} // Calls handleFilter inside SearchUI
+        onClick={filterEntries} // Calls handleFilter inside Homepage
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
         Search

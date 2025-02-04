@@ -1,5 +1,5 @@
 import "./index.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "./components/Header";
 import PopupForm from "./components/PopupForm";
 import PopUpCard from "./components/PopUpCard";
@@ -7,28 +7,23 @@ import "./App.css";
 import Button from "./components/Button";
 import Footer from "./components/Footer";
 import Homepage from "./pages/Homepage";
-import SearchUI from "./components/SearchUI";
 
 function App() {
-  const [entries, setEntries] = useState(JSON.parse(localStorage.getItem("diaryEntries")) || []);
-  const [filteredEntries, setFilteredEntries] = useState(entries);
+  const [entries, setEntries] = useState(JSON.parse(localStorage.getItem("entries")) || []);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "theme-light");
   const [userName, setUserName] = useState(localStorage.getItem("userName") || "");
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
   const [selectedCard, setSelectedCard] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
 
-  useEffect(() => {
-    const storedEntries = JSON.parse(localStorage.getItem("entries")) || [];
-    setEntries(storedEntries);
-    setFilteredEntries(storedEntries);
-  }, []);
+  // useEffect(() => {
+  //   const storedEntries = JSON.parse(localStorage.getItem("entries")) || [];
+  //   setEntries(storedEntries);
+  //   // setFilteredEntries(storedEntries);
+  // }, []);
 
-  useEffect(() => {
-    localStorage.setItem("entries", JSON.stringify(entries));
-  }, [entries]);
+  // useEffect(() => {
+  //   localStorage.setItem("entries", JSON.stringify(entries));
+  // }, [entries]);
 
   const handleClose = () => {
     setShowPopup(false);
@@ -39,9 +34,9 @@ function App() {
     setSelectedCard(item);
   };
 
-  const handleDelete = (item) => {
-    setSelectedCard(item);
-  };
+  // const handleDelete = (item) => {
+  //   setSelectedCard(item);
+  // };
 
   const handlePopupStart = ({ name, theme }) => {
     setUserName(name);
@@ -73,21 +68,7 @@ function App() {
       {!showPopup && (
         <div className={`pageContainer ${theme}`}>
           <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
-          {/* <Homepage entries={filteredEntries} onDelete={handleDelete} /> */}
-          <SearchUI
-            entries={entries}
-            filteredEntries={filteredEntries}
-            setFilteredEntries={setFilteredEntries}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            fromDate={fromDate}
-            setFromDate={setFromDate}
-            toDate={toDate}
-            setToDate={setToDate}
-          />
-
-          {/* Pass filteredEntries to Homepage */}
-          <Homepage entries={filteredEntries} />
+          <Homepage entries={entries} />
           {/* Add New Entry Button */}
           <Button
             text="New Entry Form"
