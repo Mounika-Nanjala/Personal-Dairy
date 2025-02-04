@@ -1,5 +1,6 @@
-import React from "react";
+import Button from "./Button";
 
+/* eslint-disable react/prop-types */
 const EntryModal = ({ entry, onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -7,14 +8,12 @@ const EntryModal = ({ entry, onClose }) => {
         <h2 className="text-xl font-bold">{entry.title}</h2>
         <p>{entry.date}</p>
         <img
-          src={entry.image}
+          src={entry.imageUrl}
           alt={entry.title}
           className="w-full h-48 object-cover rounded-lg my-2"
         />
-        <p>{entry.content}</p>
-        <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded" onClick={onClose}>
-          Close
-        </button>
+        <p>{entry.desc}</p>
+        <Button text="Close" onClick={onClose} />
       </div>
     </div>
   );

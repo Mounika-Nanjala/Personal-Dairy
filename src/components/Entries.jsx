@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import DiaryEntryCard from "./DiaryEntryCard";
 
 const Entries = ({ entries, onSelect, onDelete }) => {

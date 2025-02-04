@@ -1,4 +1,4 @@
-const STORAGE_KEY = "cards";
+const STORAGE_KEY = "entries";
 
 export const loadItems = () => {
   return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
