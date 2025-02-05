@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+
 import { useState, useEffect } from "react";
 import Entries from "../components/Entries";
 import EntryModal from "../components/EntryModal";
@@ -12,6 +13,9 @@ const Homepage = ({ entries, setEntries }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const entriesPerPage = 5;
 
   useEffect(() => {
     setFilteredEntries(entries); // Always show all entries initially
@@ -47,6 +51,25 @@ const Homepage = ({ entries, setEntries }) => {
     setIsFiltered(false);
   };
 
+  // Calculate pagination details
+  const totalPages = Math.ceil(entries.length / entriesPerPage);
+  const indexOfLastEntry = currentPage * entriesPerPage;
+  const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
+  const currentEntries = entries.slice(indexOfFirstEntry, indexOfLastEntry);
+
+  // Handle page change
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   const updateEntry = (updatedEntry) => {
     const updatedEntries = entries.map((entry) =>
       entry.id === updatedEntry.id ? updatedEntry : entry
@@ -64,16 +87,8 @@ const Homepage = ({ entries, setEntries }) => {
     }
   };
 
-  // const handleDelete = (id) => {
-  //   const updatedEntries = entries.filter((entry) => entry.id !== id);
-  //   // setEntries(updatedEntries); // Updates `entries` state in `App.jsx`
-  // };
-
   return (
     <div className="container mx-auto p-4">
-      {/* <h1 className="text-2xl font-bold mb-4">Daily Memoir</h1> */}
-
-      {/* Search UI inside Homepage */}
       <SearchUI
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -85,12 +100,32 @@ const Homepage = ({ entries, setEntries }) => {
         clearFilters={clearFilters} // Pass clear function
       />
 
-      {/* Display Entries (Full List or Filtered) */}
+      {/* Display Entries (Paginated List) */}
       <Entries
-        entries={isFiltered ? filteredEntries : entries} // Show full list unless filtered
+        entries={isFiltered ? filteredEntries : currentEntries} // Show full list unless filtered
         onSelect={setSelectedEntry}
-        // onDelete={handleDelete}
       />
+
+      {/* Pagination Controls */}
+      <div className="pagination flex justify-center mt-4">
+        <button
+          className="btn btn-outline"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="mx-4 mt-3">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className="btn btn-outline"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
 
       {/* Show modal when an entry is selected */}
       {selectedEntry && (
