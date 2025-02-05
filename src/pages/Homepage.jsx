@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import Entries from "../components/Entries";
 import EntryModal from "../components/EntryModal";
 import SearchUI from "../components/SearchUI";
-import { saveItem, loadItems } from "../utils/storageService";
+import { saveItem, loadItems, deleteItem } from "../utils/storageService";
 
 const Homepage = ({ entries, setEntries }) => {
   const [selectedEntry, setSelectedEntry] = useState(null);
@@ -14,12 +13,16 @@ const Homepage = ({ entries, setEntries }) => {
   const [toDate, setToDate] = useState("");
 
   useEffect(() => {
+    const savedEntries = loadItems(); // Load entries from localStorage
+    setEntries(savedEntries); // Set entries in the state
+  }, [setEntries]);
+
+  useEffect(() => {
     setFilteredEntries(entries); // Always show all entries initially
   }, [entries]);
 
   const handleFilter = () => {
     if (!searchQuery && !fromDate && !toDate) {
-      // setFilteredEntries(entries); // Reset to show all if no filters applied
       setIsFiltered(false);
       return;
     }
@@ -40,35 +43,33 @@ const Homepage = ({ entries, setEntries }) => {
     });
 
     setFilteredEntries(filtered);
-    setIsFiltered(true); // Mark that filtering is applied
+    setIsFiltered(true);
   };
 
-    // Update enties
-    const updateEntry = (updatedEntry) => {
-      const updatedEntries = entries.map((entry) =>
-        entry.id === updatedEntry.id ? updatedEntry : entry
-      );
-  
-      setEntries(updatedEntries); 
-      saveItem(updatedEntries, updatedEntry); 
-  
-      if (isFiltered) {
-        setFilteredEntries(updatedEntries.filter(entry =>
-          filteredEntries.some(filteredEntry => filteredEntry.id === entry.id)
-        ));
-      }
-    };
+  const updateEntry = (updatedEntry) => {
+    const updatedEntries = entries.map((entry) =>
+      entry.id === updatedEntry.id ? updatedEntry : entry
+    );
 
+    setEntries(updatedEntries);
+    saveItem(updatedEntries, updatedEntry);
 
-  // const handleDelete = (id) => {
-  //   const updatedEntries = entries.filter((entry) => entry.id !== id);
-  //   // setEntries(updatedEntries); // Updates `entries` state in `App.jsx`
-  // };
+    if (isFiltered) {
+      setFilteredEntries(updatedEntries.filter(entry =>
+        filteredEntries.some(filteredEntry => filteredEntry.id === entry.id)
+      ));
+    }
+  };
+
+  const handleDelete = (id) => {
+    // Delete entry from both state and localStorage
+    const updatedEntries = deleteItem(entries, { id });
+    setEntries(updatedEntries);
+    setFilteredEntries(updatedEntries);
+  };
 
   return (
     <div className="container mx-auto p-4">
-      {/* <h1 className="text-2xl font-bold mb-4">Daily Memoir</h1> */}
-
       {/* Search UI inside Homepage */}
       <SearchUI
         searchQuery={searchQuery}
@@ -82,9 +83,9 @@ const Homepage = ({ entries, setEntries }) => {
 
       {/* Display Entries (Full List or Filtered) */}
       <Entries
-        entries={isFiltered ? filteredEntries : entries} // Show full list unless filtered
+        entries={isFiltered ? filteredEntries : entries}
         onSelect={setSelectedEntry}
-        // onDelete={handleDelete}
+        onDelete={handleDelete}
       />
 
       {/* Show modal when an entry is selected */}
@@ -92,8 +93,9 @@ const Homepage = ({ entries, setEntries }) => {
         <EntryModal
           entry={selectedEntry}
           onClose={() => setSelectedEntry(null)}
-          updateEntry={updateEntry}/>
-        )}
+          updateEntry={updateEntry}
+        />
+      )}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import Button from "./Button";
 /* eslint-disable react/prop-types */
 const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
   console.log(entry.imageUrl);
+  console.log("onDelete:", onDelete);  
 
   return (
     <div className="border p-4 rounded-lg shadow-md cursor-pointer bg-black text-white">
