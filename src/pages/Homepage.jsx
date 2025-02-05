@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import Entries from "../components/Entries";
 import EntryModal from "../components/EntryModal";
@@ -26,6 +27,7 @@ const Homepage = ({ entries, setEntries }) => {
       setIsFiltered(false);
       return;
     }
+    if (!entries || entries.length === 0) return;
 
     const filtered = entries.filter((entry) => {
       const entryDate = new Date(entry.date);
@@ -33,8 +35,8 @@ const Homepage = ({ entries, setEntries }) => {
       const to = toDate ? new Date(toDate) : null;
 
       const matchesText = searchQuery
-        ? entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          entry.content.toLowerCase().includes(searchQuery.toLowerCase())
+        ? (entry.title && entry.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (entry.content && entry.content.toLowerCase().includes(searchQuery.toLowerCase()))
         : true;
 
       const matchesDate = (!from || entryDate >= from) && (!to || entryDate <= to);
@@ -46,6 +48,14 @@ const Homepage = ({ entries, setEntries }) => {
     setIsFiltered(true);
   };
 
+  const clearFilters = () => {
+    setSearchQuery("");
+    setFromDate("");
+    setToDate("");
+    setFilteredEntries(entries);
+    setIsFiltered(false);
+  };
+
   const updateEntry = (updatedEntry) => {
     const updatedEntries = entries.map((entry) =>
       entry.id === updatedEntry.id ? updatedEntry : entry
@@ -55,9 +65,11 @@ const Homepage = ({ entries, setEntries }) => {
     saveItem(updatedEntries, updatedEntry);
 
     if (isFiltered) {
-      setFilteredEntries(updatedEntries.filter(entry =>
-        filteredEntries.some(filteredEntry => filteredEntry.id === entry.id)
-      ));
+      setFilteredEntries(
+        updatedEntries.filter((entry) =>
+          filteredEntries.some((filteredEntry) => filteredEntry.id === entry.id)
+        )
+      );
     }
   };
 
@@ -79,6 +91,7 @@ const Homepage = ({ entries, setEntries }) => {
         toDate={toDate}
         setToDate={setToDate}
         filterEntries={handleFilter}
+        clearFilters={clearFilters} // Pass clear function
       />
 
       {/* Display Entries (Full List or Filtered) */}

@@ -5,7 +5,7 @@ import AddEntryModal from "./AddEntryModal";
 /* eslint-disable react/prop-types */
 const EntryModal = ({ entry, onClose, updateEntry }) => {
   const [showEditModal, setShowEditModal] = useState(false);
-  const [currentEntry, setCurrentEntry] = useState(entry);     // Save current entry
+  const [currentEntry, setCurrentEntry] = useState(entry); // Save current entry
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -29,12 +29,12 @@ const EntryModal = ({ entry, onClose, updateEntry }) => {
       {/* Edit-Modal (will be displayed, if showEditModal is true) */}
       {showEditModal && (
         <AddEntryModal
-          entry={currentEntry} 
+          entry={currentEntry}
           onClose={() => setShowEditModal(false)}
           onSave={(updatedEntry) => {
-            setCurrentEntry(updatedEntry); 
+            setCurrentEntry(updatedEntry);
             if (updateEntry) {
-              updateEntry(updatedEntry); 
+              updateEntry(updatedEntry);
             }
             setShowEditModal(false);
           }}
