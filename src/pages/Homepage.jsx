@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Entries from "../components/Entries";
 import EntryModal from "../components/EntryModal";
 import SearchUI from "../components/SearchUI";
-import { saveItem, loadItems } from "../utils/storageService";
+import { saveItem, loadItems, deleteItem } from "../utils/storageService";
 
 const Homepage = ({ entries, setEntries }) => {
   const [selectedEntry, setSelectedEntry] = useState(null);
@@ -18,10 +18,19 @@ const Homepage = ({ entries, setEntries }) => {
   const entriesPerPage = 5;
 
   useEffect(() => {
+    const savedEntries = loadItems(); // Load entries from localStorage
+    setEntries(savedEntries); // Set entries in the state
+  }, [setEntries]);
+
+  useEffect(() => {
     setFilteredEntries(entries); // Always show all entries initially
   }, [entries]);
 
   const handleFilter = () => {
+    if (!searchQuery && !fromDate && !toDate) {
+      setIsFiltered(false);
+      return;
+    }
     if (!entries || entries.length === 0) return;
 
     const filtered = entries.filter((entry) => {
@@ -87,8 +96,16 @@ const Homepage = ({ entries, setEntries }) => {
     }
   };
 
+  const handleDelete = (id) => {
+    // Delete entry from both state and localStorage
+    const updatedEntries = deleteItem(entries, { id });
+    setEntries(updatedEntries);
+    setFilteredEntries(updatedEntries);
+  };
+
   return (
     <div className="container mx-auto p-4">
+      {/* Search UI inside Homepage */}
       <SearchUI
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -102,8 +119,10 @@ const Homepage = ({ entries, setEntries }) => {
 
       {/* Display Entries (Paginated List) */}
       <Entries
-        entries={isFiltered ? filteredEntries : currentEntries} // Show full list unless filtered
+        // entries={isFiltered ? filteredEntries : entries}
         onSelect={setSelectedEntry}
+        onDelete={handleDelete}
+        entries={isFiltered ? filteredEntries : currentEntries} // Show full list unless filtered
       />
 
       {/* Pagination Controls */}

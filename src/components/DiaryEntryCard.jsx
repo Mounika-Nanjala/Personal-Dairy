@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
 
-// Define Button component once at the top level of the file
-const Button = ({ onClick, icon }) => (
-  <button onClick={onClick} className="btn btn-outline flex items-center">
-    {icon && <span className="mr-2">{icon}</span>}
-  </button>
-);
-
 const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
+  console.log(entry.imageUrl);
+  console.log("onDelete:", onDelete);
+
+  const Button = ({ onClick, icon }) => (
+    <button onClick={onClick} className="btn btn-outline flex items-center">
+      {icon && <span className="mr-2">{icon}</span>}
+    </button>
+  );
+
   return (
     <div className="border p-4 rounded-lg shadow-md cursor-pointer bg-black text-white">
       <div className="w-full flex justify-center">
@@ -41,7 +43,7 @@ const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
                 d="M3 6h18M9 6V4a2 2 0 1 1 4 0v2M4 6h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"
                 fill="none"
                 stroke="red"
-                stroke-width="2"
+                strokeWidth="2"
               />
             </svg>
           }
