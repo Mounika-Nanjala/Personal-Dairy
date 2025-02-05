@@ -1,12 +1,9 @@
-/* eslint-disable react/prop-types */
-const Button = ({ text, onClick, type = "button" }) => {
+const Button = ({ text, onClick, type = "button", className = "" }) => {
   return (
     <>
-      <div className="container mx-auto p-4">
-        <button type={type} className="btn btn-outline" onClick={onClick}>
-          {text}
-        </button>
-      </div>
+      <button type={type} onClick={onClick} className={`btn btn-outline ${className}`}>
+        {text}
+      </button>
     </>
   );
 };

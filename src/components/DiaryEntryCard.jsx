@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
   console.log(entry.imageUrl);
   console.log("onDelete:", onDelete);
@@ -11,7 +9,7 @@ const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
   );
 
   return (
-    <div className="border p-4 rounded-lg shadow-md cursor-pointer bg-black text-white">
+    <div className="border border-gray-200 dark:border-gray-700 p-4 rounded-lg shadow-md cursor-pointer bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
       <div className="w-full flex justify-center">
         <img
           src={entry.imageUrl}
@@ -19,11 +17,13 @@ const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
           className="w-full h-60 object-cover rounded-md"
         />
       </div>
-      <h2 className="text-lg font-bold mt-2">{entry.title || "Untitled"}</h2>
-      <p className="text-gray-400">{entry.date || "No Date"}</p>
-      <p className="text-gray-400">{entry.desc || "No Description"}</p>
+      <h2 className="text-lg font-bold mt-2 text-gray-900 dark:text-white">
+        {entry.title || "Untitled"}
+      </h2>
+      <p className="text-gray-500 dark:text-gray-400">{entry.date || "No Date"}</p>
+      <p className="text-gray-500 dark:text-gray-400">{entry.desc || "No Description"}</p>
       <div className="flex justify-between mt-2">
-        {/* Use Button component here */}
+        {/* Edit Button */}
         <Button
           onClick={() => onClick(entry.id)}
           icon={
@@ -35,6 +35,7 @@ const DiaryEntryCard = ({ entry, onClick, onDelete }) => {
             </svg>
           }
         />
+        {/* Delete Button */}
         <Button
           onClick={() => onDelete(entry.id)}
           icon={

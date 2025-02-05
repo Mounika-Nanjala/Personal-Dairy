@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import { useState, useEffect } from "react";
 import Entries from "../components/Entries";
 import EntryModal from "../components/EntryModal";
@@ -128,17 +126,17 @@ const Homepage = ({ entries, setEntries }) => {
       {/* Pagination Controls */}
       <div className="pagination flex justify-center mt-4">
         <button
-          className="btn btn-outline"
+          className="btn btn-outline bg-gray-600 dark:bg-gray-800 text-white hover:text-gray-800 dark:text-slate-100 hover:bg-gray-200 dark:hover:bg-gray-700 disabled:bg-gray-500 dark:disabled:bg-gray-700 disabled:text-slate-400 disabled:cursor-not-allowed dark:disabled:text-gray-400"
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
         >
           Previous
         </button>
-        <span className="mx-4 mt-3">
+        <span className="mx-4 mt-3 text-gray-800 dark:text-gray-100">
           Page {currentPage} of {totalPages}
         </span>
         <button
-          className="btn btn-outline"
+          className="btn btn-outline bg-gray-600 dark:bg-gray-800 text-white hover:text-gray-800 dark:text-slate-100 hover:bg-gray-200 dark:hover:bg-gray-700 disabled:bg-gray-500 dark:disabled:bg-gray-700 disabled:text-slate-400 disabled:cursor-not-allowed dark:disabled:text-gray-400"
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >

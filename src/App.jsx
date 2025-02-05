@@ -15,16 +15,6 @@ function App() {
   const [showPopup, setShowPopup] = useState(!localStorage.getItem("userName"));
   const [selectedCard, setSelectedCard] = useState(null);
 
-  // useEffect(() => {
-  //   const storedEntries = JSON.parse(localStorage.getItem("entries")) || [];
-  //   setEntries(storedEntries);
-  //   // setFilteredEntries(storedEntries);
-  // }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("entries", JSON.stringify(entries));
-  // }, [entries]);
-
   const handleClose = () => {
     setShowPopup(false);
     setSelectedCard(null);
@@ -33,10 +23,6 @@ function App() {
   const handleEdit = (item) => {
     setSelectedCard(item);
   };
-
-  // const handleDelete = (item) => {
-  //   setSelectedCard(item);
-  // };
 
   const handlePopupStart = ({ name, theme }) => {
     setUserName(name);
@@ -71,13 +57,16 @@ function App() {
             <Header setTheme={setTheme} userName={userName} openPopup={openPopup} theme={theme} />
             <Homepage entries={entries} setEntries={setEntries} />
             {/* Add New Entry Button */}
-            <Button
-              text="New Entry Form"
-              onClick={() => {
-                // console.log("Opening modal...");
-                handleEdit({ date: "", title: "", imageUrl: "", desc: "" }); // New Entry
-              }}
-            />
+            <div className="container mx-auto p-4">
+              <Button
+                text="New Entry Form"
+                onClick={() => {
+                  // console.log("Opening modal...");
+                  handleEdit({ date: "", title: "", imageUrl: "", desc: "" }); // New Entry
+                }}
+                className="w-full text-md bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-800 px-4 py-2 rounded"
+              />
+            </div>
           </div>
           <Footer />
         </>

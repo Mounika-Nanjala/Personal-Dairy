@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { saveItem, loadItems } from "../utils/storageService";
 import Button from "./Button";
