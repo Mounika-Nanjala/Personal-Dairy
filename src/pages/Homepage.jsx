@@ -18,11 +18,7 @@ const Homepage = ({ entries, setEntries }) => {
   }, [entries]);
 
   const handleFilter = () => {
-    if (!searchQuery && !fromDate && !toDate) {
-      // setFilteredEntries(entries); // Reset to show all if no filters applied
-      setIsFiltered(false);
-      return;
-    }
+    if (!entries || entries.length === 0) return;
 
     const filtered = entries.filter((entry) => {
       const entryDate = new Date(entry.date);
@@ -30,8 +26,8 @@ const Homepage = ({ entries, setEntries }) => {
       const to = toDate ? new Date(toDate) : null;
 
       const matchesText = searchQuery
-        ? entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          entry.content.toLowerCase().includes(searchQuery.toLowerCase())
+        ? (entry.title && entry.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (entry.content && entry.content.toLowerCase().includes(searchQuery.toLowerCase()))
         : true;
 
       const matchesDate = (!from || entryDate >= from) && (!to || entryDate <= to);
@@ -40,25 +36,33 @@ const Homepage = ({ entries, setEntries }) => {
     });
 
     setFilteredEntries(filtered);
-    setIsFiltered(true); // Mark that filtering is applied
+    setIsFiltered(true);
   };
 
-    // Update enties
-    const updateEntry = (updatedEntry) => {
-      const updatedEntries = entries.map((entry) =>
-        entry.id === updatedEntry.id ? updatedEntry : entry
-      );
-  
-      setEntries(updatedEntries); 
-      saveItem(updatedEntries, updatedEntry); 
-  
-      if (isFiltered) {
-        setFilteredEntries(updatedEntries.filter(entry =>
-          filteredEntries.some(filteredEntry => filteredEntry.id === entry.id)
-        ));
-      }
-    };
+  const clearFilters = () => {
+    setSearchQuery("");
+    setFromDate("");
+    setToDate("");
+    setFilteredEntries(entries);
+    setIsFiltered(false);
+  };
 
+  const updateEntry = (updatedEntry) => {
+    const updatedEntries = entries.map((entry) =>
+      entry.id === updatedEntry.id ? updatedEntry : entry
+    );
+
+    setEntries(updatedEntries);
+    saveItem(updatedEntries, updatedEntry);
+
+    if (isFiltered) {
+      setFilteredEntries(
+        updatedEntries.filter((entry) =>
+          filteredEntries.some((filteredEntry) => filteredEntry.id === entry.id)
+        )
+      );
+    }
+  };
 
   // const handleDelete = (id) => {
   //   const updatedEntries = entries.filter((entry) => entry.id !== id);
@@ -78,6 +82,7 @@ const Homepage = ({ entries, setEntries }) => {
         toDate={toDate}
         setToDate={setToDate}
         filterEntries={handleFilter}
+        clearFilters={clearFilters} // Pass clear function
       />
 
       {/* Display Entries (Full List or Filtered) */}
@@ -92,8 +97,9 @@ const Homepage = ({ entries, setEntries }) => {
         <EntryModal
           entry={selectedEntry}
           onClose={() => setSelectedEntry(null)}
-          updateEntry={updateEntry}/>
-        )}
+          updateEntry={updateEntry}
+        />
+      )}
     </div>
   );
 };
