@@ -2,7 +2,6 @@ import { useState } from "react";
 import Button from "./Button";
 import AddEntryModal from "./AddEntryModal";
 
-/* eslint-disable react/prop-types */
 const EntryModal = ({ entry, onClose, updateEntry }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [currentEntry, setCurrentEntry] = useState(entry); // Save current entry
