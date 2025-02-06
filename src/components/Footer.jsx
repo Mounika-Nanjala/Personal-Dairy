@@ -31,12 +31,12 @@ const Footer = () => {
             <p className="text-lg">Need Inspiration?</p>
                 <button
                 onClick={generateRandomQuote}
-                className="btn btn-outline btn-primary">
+                className="btn btn-outline border-[#1ad1c7] text-[#1ad1c7] hover:bg-[#1ad1c7] hover:text-white">
                     Click here
                 </button>
                 {quote !== null && (
                 <div className="chat chat-start">
-                    <div className="chat-bubble chat-bubble-primary mb-16">
+                    <div className="chat-bubble chat-bubble-primary bg-[#1ad1c7] mb-16">
                         {quote}
                     </div>
                 </div>
