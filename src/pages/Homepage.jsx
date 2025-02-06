@@ -67,7 +67,7 @@ const Homepage = ({ entries, setEntries }) => {
   const totalPages = Math.ceil(displayedEntries.length / entriesPerPage);
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = displayedEntries.slice(indexOfFirstEntry, indexOfLastEntry);
+  // const currentEntries = displayedEntries.slice(indexOfFirstEntry, indexOfLastEntry);
 
   // Handle page change
   const handleNextPage = () => {
@@ -122,7 +122,6 @@ const Homepage = ({ entries, setEntries }) => {
 
       {/* Display Entries (Paginated List) */}
       <Entries
-        // entries={isFiltered ? filteredEntries : entries}
         onSelect={setSelectedEntry}
         onDelete={handleDelete}
         entries={
@@ -141,7 +140,7 @@ const Homepage = ({ entries, setEntries }) => {
         >
           Previous
         </button>
-        <span className="mx-4 mt-3 text-gray-800 dark:text-gray-100">
+        <span className="mx-4 mt-3 text-gray-100">
           Page {currentPage} of {totalPages}
         </span>
         <button
