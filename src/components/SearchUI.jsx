@@ -24,7 +24,7 @@ const SearchUI = ({
     filterEntries(); // Always filter, even if only text search is applied
   };
   return (
-    <div className="flex flex-row justify-between gap-2 mb-4">
+    <div className="md:flex md:flex-row justify-between md:gap-2 mb-4">
       {/* Alert when only one date is entered */}
       {showAlert && (
         <div
@@ -50,7 +50,7 @@ const SearchUI = ({
         placeholder="Search diary entries..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 rounded w-96 text-gray-900 dark:text-gray-100"
+        className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 m-2 rounded w-full text-gray-900 dark:text-gray-100"
       />
 
       {/* Date Inputs */}
@@ -58,28 +58,28 @@ const SearchUI = ({
         type="date"
         value={fromDate}
         onChange={(e) => setFromDate(e.target.value)}
-        className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 rounded w-full md:w-1/4 text-gray-900 dark:text-gray-100"
+        className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 m-2 rounded w-full md:w-1/4 text-gray-900 dark:text-gray-100"
       />
 
       <input
         type="date"
         value={toDate}
         onChange={(e) => setToDate(e.target.value)}
-        className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 rounded w-full md:w-1/4 text-gray-900 dark:text-gray-100"
+        className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-2 m-2 rounded w-full md:w-1/4 text-gray-900 dark:text-gray-100"
       />
 
       {/* Search Button */}
       <Button
         text="Search"
         onClick={handleSearch}
-        className="bg-blue-500 dark:bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-600 dark:hover:bg-blue-800 flex-1"
+        className="bg-blue-500 dark:bg-blue-700 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 dark:hover:bg-blue-800 flex-1"
       />
 
       {/* Clear Filter Button */}
       <Button
         text="Clear"
         onClick={clearFilters}
-        className="bg-gray-500 dark:bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600 dark:hover:bg-gray-800 flex-1"
+        className="bg-gray-500 dark:bg-gray-700 text-white px-4 py-2 m-2 rounded hover:bg-gray-600 dark:hover:bg-gray-800 flex-1"
       />
     </div>
   );
