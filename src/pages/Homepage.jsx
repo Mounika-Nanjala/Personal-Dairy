@@ -27,8 +27,10 @@ const Homepage = ({ entries, setEntries }) => {
   const handleFilter = () => {
     if (!searchQuery && !fromDate && !toDate) {
       setIsFiltered(false);
+      setCurrentPage(1); // Reset to first page
       return;
     }
+
     if (!entries || entries.length === 0) return;
 
     const filtered = entries.filter((entry) => {
@@ -48,6 +50,7 @@ const Homepage = ({ entries, setEntries }) => {
 
     setFilteredEntries(filtered);
     setIsFiltered(true);
+    setCurrentPage(1); // Reset pagination to first page when filtering
   };
 
   const clearFilters = () => {
@@ -56,13 +59,15 @@ const Homepage = ({ entries, setEntries }) => {
     setToDate("");
     setFilteredEntries(entries);
     setIsFiltered(false);
+    setCurrentPage(1); // Reset to first page when clearing filters
   };
 
   // Calculate pagination details
-  const totalPages = Math.ceil(entries.length / entriesPerPage);
+  const displayedEntries = isFiltered ? filteredEntries : entries; // Use filtered results if search is applied
+  const totalPages = Math.ceil(displayedEntries.length / entriesPerPage);
   const indexOfLastEntry = currentPage * entriesPerPage;
   const indexOfFirstEntry = indexOfLastEntry - entriesPerPage;
-  const currentEntries = entries.slice(indexOfFirstEntry, indexOfLastEntry);
+  const currentEntries = displayedEntries.slice(indexOfFirstEntry, indexOfLastEntry);
 
   // Handle page change
   const handleNextPage = () => {
@@ -120,7 +125,11 @@ const Homepage = ({ entries, setEntries }) => {
         // entries={isFiltered ? filteredEntries : entries}
         onSelect={setSelectedEntry}
         onDelete={handleDelete}
-        entries={isFiltered ? filteredEntries : currentEntries} // Show full list unless filtered
+        entries={
+          isFiltered
+            ? filteredEntries.slice(indexOfFirstEntry, indexOfLastEntry)
+            : entries.slice(indexOfFirstEntry, indexOfLastEntry)
+        } // Show full list unless filtered
       />
 
       {/* Pagination Controls */}
