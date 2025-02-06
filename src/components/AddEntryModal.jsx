@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { saveItem, loadItems } from "../utils/storageService";
 
 const AddEntryModal = ({ onClose, onSave, entry }) => {
@@ -25,16 +25,18 @@ const AddEntryModal = ({ onClose, onSave, entry }) => {
     const storedEntries = loadItems();
     const updatedEntry = { id: entry?.id, title, date, desc, imageUrl };
 
-    // Save new or edited entry to local storage 
+    // Save new or edited entry to local storage
     saveItem(storedEntries, updatedEntry);
     onSave(updatedEntry);
-    onClose(); 
+    onClose();
   };
 
   return (
-    <div className="modal-background">
-      <div className="modal-content p-4 bg-white rounded shadow">
-        <h2 className="text-xl font-bold">{entry ? "Edit Entry" : "Add Entry"}</h2>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-50">
+      <div className="modal-content p-4 bg-white dark:bg-gray-800 rounded shadow">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+          {entry ? "Edit Entry" : "Add Entry"}
+        </h2>
 
         <form onSubmit={handleSubmit}>
           <input
@@ -42,36 +44,39 @@ const AddEntryModal = ({ onClose, onSave, entry }) => {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="border p-2 w-full mt-2"
+            className="border border-gray-300 dark:border-gray-600 p-2 w-full mt-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
           />
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="border p-2 w-full mt-2"
+            className="border border-gray-300 dark:border-gray-600 p-2 w-full mt-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
           />
           <input
             type="text"
             placeholder="Image URL"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
-            className="border p-2 w-full mt-2"
+            className="border border-gray-300 dark:border-gray-600 p-2 w-full mt-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
           />
           <textarea
             placeholder="Write your entry..."
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
-            className="border p-2 w-full mt-2 h-32"
+            className="border border-gray-300 dark:border-gray-600 p-2 w-full mt-2 h-32 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded"
           ></textarea>
 
           <div className="flex gap-2 mt-3">
-            <button type="submit" className="bg-green-500 text-white px-3 py-1 rounded">
+            <button
+              type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
+            >
               {entry ? "Update" : "Save"}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-500 text-white px-3 py-1 rounded"
+              className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded"
             >
               Cancel
             </button>
